@@ -2,8 +2,39 @@ package com.amirserry.postfix_evaluation;
 
 public class EvaluateExpersion {
 
+	private String[] items;
+	
+	private Stack stack= new Stack();
 	
 	private Stack opStack= new Stack();
+	
+	
+	public double Evaluate(String equation) {
+		return EvaluateFromPostfix(convertToPostFix(equation));
+	}
+	
+	
+	private double EvaluateFromPostfix(String postfix) {
+		items= postfix.split(" ");
+		double result=0;
+		for(String item:items) {
+			
+			if(isNumeric(item)) {
+				stack.push(item);
+			}
+			else {
+				double firstItem = Double.parseDouble(stack.pop());
+				double secondItem =  Double.parseDouble(stack.pop());
+				
+				result = calaucate (secondItem,firstItem,item);
+				stack.push(result+"");
+
+			}
+		}
+		
+		
+		return result;
+	}
 	
 	private String convertToPostFix(String infix) {
 		String[] items= infix.split(" ");
@@ -48,7 +79,7 @@ public class EvaluateExpersion {
 		return infixString;
 	}
 	
-private double calaucate(double firstItem,double secondItem,String operante) {
+	private double calaucate(double firstItem,double secondItem,String operante) {
 		
 		if(operante.equals("*"))
 		{
